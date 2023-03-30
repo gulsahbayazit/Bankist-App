@@ -216,215 +216,31 @@ btnSort.addEventListener("click", function (e) {
   displayMovements(currentAccount.movements, !sorted);
   sorted = !sorted;
 });
+// 1.
+const bankDepositSum = accounts
+  .flatMap((acc) => acc.movements)
+  .filter((mov) => mov > 0)
+  .reduce((sum, cur) => sum + cur, 0);
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
+console.log(bankDepositSum);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// 2.
+const numDeposits1000 = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+// ++count = count + 1
 
-/////////////////////////////////////////////////
-// //Slice Method
-// // IT DOESNT CHANGE ORIGINAL ARRAY
-// let arr = ['a', 'b', 'c', 'd', 'e'];
-// console.log(arr.slice(2, 4));
-
-// //Splice Method
-// // IT CHANGE ORIGINAL ARRAY
-
-// arr.splice(-1);
-// console.log(arr);
-// //It deletes the last element
-
-// arr.splice(1, 2);
-// //It takes the first element and delete 2 after it
-// // a,b,c,d
-// // result is a, d
-
-// // Reverse
-// // It mutuates the original array
-// arr = ['a', 'b', 'c', 'd', 'e'];
-// const arr2 = ['j', 'h', 'i', 'f', 'g'];
-// console.log(arr2.reverse();
-
-// // Concat
-// // it unifies the two array
-// const letters = arr.concat(arr2);
-// console.log([...arr, ...arr2]);
-// console.log(letters);
-
-// // Join
-// console.log(letters.join('-'));
-
-// // at method
-// const arr3 = [23, 11, 64];
-// console.log(arr[0]);
-// console.log(arr.at(0));
-
-// console.log(arr[arr.length - 1]);
-// console.log(arr.slice(-1)[0]);
-// console.log(arr.at(-1));
-
-// console.log('jonas'.at(-1));
-
-// // Looping Array : forEach
-
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-// // for (const movement of movements) {
-// for (const [i, movement] of movements.entries()) {
-//   if (movement > 0) {
-//     console.log(`Movement ${i + 1}: You deposited ${movement}`);
-//   } else {
-//     console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
-//   }
-// }
-// // forEach is high order function than it requires call back function
-// //loop over the array and execute each iteration of this  call back function
-// // mov : current element, i : current index, arr: current array
-// // it is important call back funtion here
-// movements.forEach(function (mov, i, arr) {
-//   if (mov > 0) {
-//     console.log(`Movement ${i + 1}: You deposited ${mov}`);
-//   } else {
-//     console.log(`Movement ${i + 1}: You withdrew ${Math.abs(mov)}`);
-//   }
-// });
-
-// // 0: function(200)
-// // 1: function(450)
-// // 2: function(400)
-// // ...
-
-// forEach with Maps and Sets
-// 'USD' is key, 'United States dollar' is value
-// const currencies = new Map([
-//   ['USD', 'United States dollar'],
-//   ['EUR', 'Euro'],
-//   ['GBP', 'Pound sterling'],
-// ]);
-
-// currencies.forEach(function (value, key, map) {
-//   console.log(`${key}: ${value}`);
-// });
-
-// //The Set is a one-dimensional array with unique keys, while the Map is a two-dimensional array with key-value pairs, where each key shall be unique.
-// // Set
-// const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR']);
-// console.log(currenciesUnique);
-// currenciesUnique.forEach(function (value, key, map) {
-//   console.log(`${key}: ${value}`);
-// });
-
-// const checkDogs = function (dogsJulia, dogsKate) {
-//   const dogs = dogsJulia.slice(1, -1).concat(dogsKate);
-//   console.log(dogs);
-
-//   dogs.forEach(function (dog, i) {
-//     if (dog > 3) {
-//       console.log(`Dog number ${i + 1} is an adult, and is ${dog} years old`);
-//     } else {
-//       console.log(`Dog number ${i + 1} is still a pupy`);
-//     }
-//   });
-// };
-
-// checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
-// checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
-
-// Data Transformation: map, filter, reduce
-
-// const eurToUsd = 1.1;
-
-// const movementsUSD = movements.map(function (mov) {
-//   return mov * eurToUsd;
-// });
-
-// const movementsUSD = movements.map (mov =>
-//  mov * eurToUsd );
-
-// const movementsUSDfor = [];
-// for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
-// console.log(movementsUSDfor);
-
-// const movementsDescriptions = movements.map(
-//   (mov, i) =>
-//     `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
-//       mov
-//     )(mov)}`
-// );
-// console.log(movementsDescriptions);
-
-// Computing Usernames
-
-// const balance = movements.reduce(function (acc, cur, i, arr) {
-//   return acc + cur;
-// }, 0);
-
-// const balance = movements.reduce((acc, cur) =>
-//   return acc + cur, 0);
-// console.log(balance)
-
-// let balance2 = 0;
-// for (const mov of movements) balance2 += mov;
-// console.log(balance2);
-
-// The Magic of Chaining Methods
-
-// const eurToUsd = 1.1;
-// console.log(movements);
-
-// //PIPELINE
-// const totalDepositsUSD = movements
-//   .filter(mov => mov > 0)
-//   .map((mov, i, arr) => {
-//     return mov * eurToUsd;
-//   })
-//   .reduce((acc, mov) => acc + mov, 0);
-// console.log(totalDepositsUSD);
-
-// const firstWithdrawal = movements.find(mov => mov < 0);
-// console.log(movements);
-// console.log(firstWithdrawal);
-
-// console.log(accounts);
-
-// const account = accounts.find(acc => acc.owner === 'Jessica Davis');
-// console.log(account);
-
-// Flat Method
-
-const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
-console.log(arr.flat());
-
-const arrDeep = [[[1, 2], 3], [4, 5, 6], 7, 8];
-console.log(arrDeep.flat(2));
-
-const accountMovements = accounts.map((acc) => acc.movements);
-console.log(accountMovements);
-const allMovements = accountMovements.flat();
-console.log(allMovements);
-const overallBalance = allMovements.reduce((acc, mov) => acc + mov, 0);
-
-// flat
-const overalBalance = accounts
-  .map((acc) => acc.movements)
-  .flat()
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(overalBalance);
-
-// flatMap
-const overalBalance2 = accounts
-  .flatmap((acc) => acc.movements)
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(overalBalance);
-
-// Sorting Arrays
-// Strings
-const owners = ["Jonas", "Zach", "Adam", "Max"];
-console.log(owners.sort());
-
-// Numbers
-// return < 0, a, b
-// return > 0, b, a
-console.log(movements.sort((a, b) => a - b));
+// 3.
+const { deposits, withdrawals } = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+      sums[cur > 0 ? "deposits" : "withdrawals"] += cur;
+      return sums;
+    },
+    {
+      deposits: 0,
+      withdrawals: 0,
+    }
+  );
