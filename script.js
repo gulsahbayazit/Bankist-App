@@ -62,10 +62,10 @@ const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
 // Functions
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = "";
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort ? acc.slice().sort((a, b) => a - b) : acc.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? "deposit" : "withdrawal";
@@ -75,7 +75,8 @@ const displayMovements = function (movements, sort = false) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__value">${mov}€</div>
+    <div class="movements__date">${displayDate}</div>
+        <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
 
@@ -130,9 +131,24 @@ const updateUI = function (acc) {
   // Display summary
   calcDisplaySummary(acc);
 };
-
-//Event Handler
+////////////////////////////////
+//Event Handlers
 let currentAccount;
+
+// FAKE ALWAYS LOGGED IN
+currentAccount = account1;
+updateUI(currentAccount);
+containerApp.style.opacity = 100;
+
+// day/month/year
+const now = new Date();
+const date = new Date(acc.movementsDates[i]);
+const day = `${now.getDate()}`.padStart(2, 0);
+const month = `${now.getMonth() + 1}`.padStart(2, 0);
+const year = date.getFullYear();
+const hour = `${date.getHours()}`.padStart(2, 0);
+const min = `${date.getMinutes()}`.padStart(2, 0);
+const displayDate = `${day}/${month}/${year}, ${hour}:${min}`;
 
 btnLogin.addEventListener("click", function (e) {
   // Prevent form from submitting
@@ -171,6 +187,10 @@ btnTransfer.addEventListener("click", function (e) {
     // Doing the transfer
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
+
+    // Add transfer date
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAcc.movementsDates.push(new Date().toISOString());
     // Update UI
     updateUI(currentAccount);
   }
@@ -185,6 +205,8 @@ btnLoan.addEventListener("click", function (e) {
   ) {
     // Add movement
     currentAccount.movements.push(amount);
+    // Add loan date
+    currentAccount.movementsDates.push(new Date().toISOString());
     // Update UI
     updateUI(currentAccount);
   }
