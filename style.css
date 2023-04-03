@@ -290,8 +290,6 @@ h2 {
   font-weight: 600;
 }
 
-/* The page is NOT responsive. You can implement responsiveness yourself if you wanna have some fun 😃 */
-
 :root {
   --color-primary: #5ec576;
   --color-secondary: #ffcb03;

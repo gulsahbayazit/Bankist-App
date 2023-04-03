@@ -378,9 +378,6 @@ const closeModal = function () {
 
 btnsOpenModal.forEach((btn) => btn.addEventListener("clik", openModal));
 
-for (let i = 0; i < btnsOpenModal.length; i++)
-  btnsOpenModal[i].addEventListener("click", openModal);
-
 btnCloseModal.addEventListener("click", closeModal);
 overlay.addEventListener("click", closeModal);
 
@@ -388,4 +385,96 @@ document.addEventListener("keydown", function (e) {
   if (e.key === "Escape" && !modal.classList.contains("hidden")) {
     closeModal();
   }
+});
+
+btnScrollTo.addEventListener("click", function (e) {
+  const s1coords = section1.getBoundingClientRect();
+  // Scrolling
+  section1.scrollIntoView({ behavior: "smooth" });
+});
+
+// Page navigation
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // Matching Strategy
+  if (e.target.classList.contains("nav__link")) {
+    const id = e.target.getAttribute("href");
+    document.querySelector(id).scrollIntoView({
+      behavior: "smooth",
+    });
+  }
+});
+
+// Tabbed component
+const tabs = document.querySelectorAll(".operations__tab");
+const tabsContainer = document.querySelector(".operations__tab-container");
+const tabsContent = document.querySelectorAll(".operations__content");
+
+tabsContainer.addEventListener("click", function (e) {
+  const clicked = e.target.closest(".operations__tab");
+
+  // Guard clause
+  if (!clicked) return;
+
+  // Remove active classes
+  tabs.forEach((t) => t.classList.remove("operations__tab--active"));
+  clicked.classList.add("operations__tab--active");
+
+  tabsContent.forEach((c) => c.classList.remove("operations__content--active"));
+
+  // Activate content area
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add("operations__content--active");
+});
+
+const h1 = document.querySelector("h1");
+
+// Going downwards: child
+h1.firstElementChild.style.color = "white";
+h1.lastElementChild.style.color = "orangered";
+
+// Going upwards: parents
+h1.closest(".header").style.background = "var(--gradient-secondary)";
+h1.closest(".header").style.background = "var(--gradient-primary)";
+
+// Delete elements
+document
+  .querySelector(".btn--close--cookie")
+  .addEventListener("click", function () {
+    MessageChannel.parentElement.removeChild(message);
+  });
+
+//Styles
+message.style.backgroundColor = "#3738d";
+message.style.width = "120%";
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + "px";
+
+document.documentElement.style.setProperty("--color-primary", "orangered");
+
+// Attributes
+const logo = document.querySelector(".nav__logo");
+logo.alt = "Beatiful minimalist logo";
+logo.setAttribute("company", "Bankist");
+
+// Non Standard
+const link = document.querySelector(".nav__link--btn");
+
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+
+document.querySelector(".nav__link").addEventListener("click", function (e) {
+  this.style.backgroundColor = randomColor();
+});
+
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  console.log("LINK");
+});
+
+document.querySelector(".nav").addEventListener("click", function (e) {
+  console.log("LINK");
 });
